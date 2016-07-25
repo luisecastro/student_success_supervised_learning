@@ -11802,7 +11802,7 @@ div#notebook {
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[1]:</div>
+<div class="prompt input_prompt">In&nbsp;[10]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython2"><pre><span></span><span class="c1"># Import libraries</span>
@@ -11854,7 +11854,7 @@ div#notebook {
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[10]:</div>
+<div class="prompt input_prompt">In&nbsp;[11]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython2"><pre><span></span><span class="c1"># TODO: Calculate number of students</span>
@@ -11917,7 +11917,7 @@ Graduation rate of the class: 67%
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[3]:</div>
+<div class="prompt input_prompt">In&nbsp;[12]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython2"><pre><span></span><span class="c1"># Extract feature columns</span>
@@ -11999,7 +11999,7 @@ Feature values:
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[4]:</div>
+<div class="prompt input_prompt">In&nbsp;[13]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython2"><pre><span></span><span class="k">def</span> <span class="nf">preprocess_features</span><span class="p">(</span><span class="n">X</span><span class="p">):</span>
@@ -12070,7 +12070,7 @@ Feature values:
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[5]:</div>
+<div class="prompt input_prompt">In&nbsp;[14]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython2"><pre><span></span><span class="c1"># TODO: Import any additional functionality you may need here</span>
@@ -12138,13 +12138,73 @@ Testing set has 95 samples.
 <p><strong>Answer: </strong></p>
 <p>There are many learning algorithms that can be used.</p>
 <ul>
-<li>We need a <strong>supervised algorithm</strong> as we have the correct labels for the instances.</li>
-<li>We need a <strong>classification algorithm</strong> as stated before, to know if the answer is fail or not fail.</li>
-<li>We can see from the data that the num of <strong>students &gt; num of paremeters</strong>.</li>
-<li>It is a <strong>modest dataset</strong>, some algorithms struggle with big datasets.</li>
-<li>It is an <strong>unbalanced dataset</strong> that is, has more representation of one type of target thatn the other.</li>
+<li>We need a <strong>supervised algorithm</strong> as we have the correct labels for the instances. That is, the dataset supplies the correct outcome to the observations.</li>
+<li>We need a <strong>two class classification algorithm</strong> as stated before, to know if the answer is either fail or not fail.</li>
+<li>We can see from the data that the num of <strong>students &gt; num of paremeters</strong>, particularly there ar 395 observations, 30 features and the target values column.</li>
+<li>It is a <strong>modest dataset</strong>, some algorithms struggle with big datasets, some are simple but work very well with huge datasets.</li>
+<li>It is an <strong>unbalanced dataset</strong> that is, has more representation of one type of target than the other, around 67%.</li>
+<li>It is unknown if this is or isn't a <strong>linearly separable</strong> dataset. This is important since many algorithms assume linearity, other can be tweaked to deal with non-linearity.</li>
 </ul>
-<p>I will try <strong>Support Vector Machines, Naive Bayes, Logistic Regression and Random Forest</strong>.</p>
+<p>Knowing this, let's see which learning algorithms seem more apt for this dataset.</p>
+<p><em>"The answer to the question "What machine learning algorithm should I use?" is always "It depends." It depends on the size, quality, and nature of the data. It depends what you want to do with the answer. It depends on how the math of the algorithm was translated into instructions for the computer you are using. And it depends on how much time you have. Even the most experienced data scientists can't tell which algorithm will perform best before trying them."<a href="https://azure.microsoft.com/en-us/documentation/articles/machine-learning-algorithm-choice/">1</a></em></p>
+<ul>
+<li><strong>Accurancy:</strong> I expect to get the most accurate model, there are no time constraints (not a real time application) and the dataset is small, so there is the possibility and time to train the best model, whichever it is.</li>
+<li><strong>Training time:</strong> as said and previously tested, the models have very low training time since the dataset is only 395 observations by 30 features plus the target value.</li>
+<li><strong>Two class classification:</strong> There are only two possible values, yes or no that the outcome can take.</li>
+<li><strong>Linearity:</strong> I am not aware if there’s an underlying linear process or not that has shaped the data. Many algorithms assume linearity, if data is linear they can be a great fit, if not may bring the accurancy down.</li>
+</ul>
+<p>In conclusion, we want the most accurate model, regardless of training/prediction time (the algorithms tested in the order of miliseconds, the memory footprint isn’t a concern either), that will be a supervised algorithm for two class classification without knowing if the data is linearly separable or not.</p>
+<p>From <a href="https://azure.microsoft.com/en-us/documentation/articles/machine-learning-algorithm-choice/">1</a> we can see <strong>decision trees</strong> algorithms (Forests, Jungles, Boosted) are a good alternative, very accurate and fairly fast, though they can be memory intensive.</p>
+<p><em>"In random forests, trees are built from a sample drawn with replacement (bootstrap). When splitting a node during the construction of the tree, the split that is chosen is no longer the best split among all features. Instead, the split that is picked is the best split among a random subset of the features. As a result of this randomness, the bias of the forest usually slightly increases (with respect to the bias of a single non-random tree) but, due to averaging, its variance also decreases, usually more than compensating for the increase in bias, hence yielding an overall better model." <a href="http://scikit-learn.org/stable/modules/ensemble.html">2</a></em></p>
+<p><strong>Boosted decision trees</strong> use "weak learners" that is, models that perform somehow better than change, as a representative of the "ensamble learners" it combines this simple models to achive a better, more complex one through the combination of them.</p>
+<p><img src="1.png" alt="twoclass" title="Two-class Classification"></p>
+<p><strong>Logistic regression</strong> is a fast algorithm, using ridge or lasso regression (l2 or l1 ) we can avoid overfitting and give greater influence to the most important parameters. It assumes a linear combination of explanatory variables, which may or may not be the case. <a href="https://en.wikipedia.org/wiki/Logistic_regression">3</a></p>
+<p>It can be tweaked depending on the characteristics of the dataset.
+Case    Solver
+Small dataset or L1 penalty    “liblinear”
+Multinomial loss    “lbfgs” or newton-cg”
+Large dataset    “sag”</p>
+<table>
+<thead><tr>
+<th style="text-align:center">Case</th>
+<th style="text-align:center">Prediction Time (train)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">Small</td>
+<td style="text-align:center">"liblinear"</td>
+</tr>
+<tr>
+<td style="text-align:center">Multinomial loss</td>
+<td style="text-align:center">"lbfgs" or "newton-cg"</td>
+</tr>
+<tr>
+<td style="text-align:center">Large Dataset</td>
+<td style="text-align:center">"sag"</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Support vector machines</strong> are good when we don’t have many observations compared with the number of features of the data (which isn’t the case). It is good for linearly separable data (and can be tweaked changing the kernel for other data configurations). It searches to have the largest margin of separation between to classes, this makes a cleaner separation and avoids overfitting.</p>
+<p>*</p>
+<ul>
+<li>Effective in high dimensional spaces.</li>
+<li>Still effective in cases where number of dimensions is greater than the number of samples.</li>
+<li>Uses a subset of training points in the decision function (called support vectors), so it is also memory efficient. That is, takes the decision only with the most relevant points (the ones that are nearer to stablishing the margins) while other points are disregarded.</li>
+<li>Versatile: different Kernel functions can be specified for the decision function. Common kernels are provided, but it is also possible to specify custom kernels. <a href="http://scikit-learn.org/stable/modules/svm.html">4</a>*</li>
+</ul>
+<p><img src="2.png" alt="twoclass2" title="Two-class Classification"></p>
+<p>From this last image we se another couple of classifiers that we already knew.</p>
+<p><strong>Naive bayes:</strong> An easy to implement model which assumes no variable dependency (which may or may not be true) thus “Naive”. Still competitive and with fast convergence.</p>
+<p><strong>KNN</strong> is a lazy algorithm, that is, does none of the work to “train” until called for a prediction. When this happens, it looks for the closest K neighbors of the to predict the outcome. It can be used with a simple vote (most neighbors) or weighted vote (most/closest neighbors). It is susceptible to the structure of the data, and it is important to know which distance measure is the best for it, also, since it computing “distances”, features should be normalized. <a href="https://pratanalytics.wordpress.com/2014/11/25/pros-and-cons-of-classifiers/">5</a></p>
+<p>From this I will try a Tree classifier, <strong>Random Forest</strong>, an ensamble algorithm, low bias and by manipulating the number of split nodes, by setting a max depth or pruning variance can be handled. It is a very accurated algorithm.</p>
+<p>I will too try a <strong>Boosting Tree Algorithm</strong>. This algorithms have a natural resistance to overfiting by increasing the separation distance of the classes with each new iteration of the algorithm.</p>
+<p>I ran earlier <strong>Logistic Regression</strong> and had a very fast and accurate out of the box performance, perhaps our data is indeed linearly separable and that is why it gives such a good result.</p>
+<p>I'll try <strong>Naive Bayes</strong>, it is very unlikely the features in our dataset are independent from one another (an assumption Naive Bayes takes, most commonly used in NLP), however I wish to see how it behaves. The dataset has more than 50 instances (a rule of thumb I've found often), however it is still modest.</p>
+<p><em>"If you have fairly little data and you are going to train a supervised classifier, then machine learning theory says you should stick to a classifier with high bias. . For example, there are theoretical and empirical results that Naive Bayes does well in such circumstances (Forman and Cohen, 2004, Ng and Jordan, 2001), although this effect is not necessarily observed in practice with regularized models over textual data (Klein and Manning, 2002). At any rate, a very low bias model like a nearest neighbor model is probably counterindicated. Regardless, the quality of the model will be adversely affected by the limited training data." <a href="http://nlp.stanford.edu/IR-book/html/htmledition/choosing-what-kind-of-classifier-to-use-1.html">6</a></em></p>
+<p>I'll try <strong>Support Vector Classifier</strong>, good with linearly separable datasets, the kernel can be tweaked if not (by creating and additional dimension where data is indeed linearly separable. The default kernel is Radial Basis Function (RBF), with 2 parameters: C and gamma. C, trades off misclassification of training examples against simplicity of the decision surface. Gamma defines how much influence a single training example has. The larger gamma is, the closer other examples must be to be affected.</p>
+<p>In the tunning section, a grid of performance parameters can be explored to further increase the accurancy of the model. The performance is validated with <strong>Cross-Validation</strong>, folding the training dataset in K folds, takes out one of them to be a test set and the rest to training set. It averages the result and shows us a more accurate evaluation of the performance and robustness of the model.</p>
+<p>An alternative was suggested to use <strong>Stratified Cross-Validation</strong>, this helps us with unbalanced datasets by creating folds that keep the ratio Target ratio in the folds.</p>
 
 </div>
 </div>
@@ -12169,7 +12229,7 @@ Testing set has 95 samples.
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[6]:</div>
+<div class="prompt input_prompt">In&nbsp;[15]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython2"><pre><span></span><span class="k">def</span> <span class="nf">train_classifier</span><span class="p">(</span><span class="n">clf</span><span class="p">,</span> <span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">):</span>
@@ -12242,7 +12302,7 @@ Testing set has 95 samples.
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[12]:</div>
+<div class="prompt input_prompt">In&nbsp;[16]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython2"><pre><span></span><span class="c1"># TODO: Import the three supervised learning models from sklearn</span>
@@ -12280,11 +12340,12 @@ Testing set has 95 samples.
 <div class="output_area"><div class="prompt"></div>
 <div class="output_subarea output_stream output_stdout output_text">
 <pre>Training a SVC using a training set size of 100. . .
-Trained model in 0.0018 seconds
+Trained model in 0.0017 seconds
 Made predictions in 0.0010 seconds.
 F1 score for training set: 0.8591.
 Made predictions in 0.0010 seconds.
 F1 score for test set: 0.7838.
+
 
 Training a SVC using a training set size of 200. . .
 Trained model in 0.0045 seconds
@@ -12293,12 +12354,14 @@ F1 score for training set: 0.8693.
 Made predictions in 0.0016 seconds.
 F1 score for test set: 0.7755.
 
+
 Training a SVC using a training set size of 300. . .
 Trained model in 0.0091 seconds
-Made predictions in 0.0066 seconds.
+Made predictions in 0.0067 seconds.
 F1 score for training set: 0.8692.
 Made predictions in 0.0022 seconds.
 F1 score for test set: 0.7586.
+
 
 Training a GaussianNB using a training set size of 100. . .
 Trained model in 0.0007 seconds
@@ -12307,40 +12370,46 @@ F1 score for training set: 0.8550.
 Made predictions in 0.0003 seconds.
 F1 score for test set: 0.7481.
 
+
 Training a GaussianNB using a training set size of 200. . .
-Trained model in 0.0008 seconds
+Trained model in 0.0009 seconds
 Made predictions in 0.0004 seconds.
 F1 score for training set: 0.8321.
 Made predictions in 0.0003 seconds.
 F1 score for test set: 0.7132.
 
+
 Training a GaussianNB using a training set size of 300. . .
 Trained model in 0.0009 seconds
-Made predictions in 0.0004 seconds.
+Made predictions in 0.0005 seconds.
 F1 score for training set: 0.8088.
 Made predictions in 0.0003 seconds.
 F1 score for test set: 0.7500.
 
+
 Training a LogisticRegression using a training set size of 100. . .
-Trained model in 0.0012 seconds
+Trained model in 0.0011 seconds
 Made predictions in 0.0002 seconds.
 F1 score for training set: 0.8571.
 Made predictions in 0.0002 seconds.
 F1 score for test set: 0.7612.
 
+
 Training a LogisticRegression using a training set size of 200. . .
-Trained model in 0.0021 seconds
-Made predictions in 0.0002 seconds.
+Trained model in 0.0020 seconds
+Made predictions in 0.0003 seconds.
 F1 score for training set: 0.8380.
 Made predictions in 0.0002 seconds.
 F1 score for test set: 0.7794.
 
+
 Training a LogisticRegression using a training set size of 300. . .
-Trained model in 0.0032 seconds
+Trained model in 0.0030 seconds
 Made predictions in 0.0002 seconds.
 F1 score for training set: 0.8381.
 Made predictions in 0.0002 seconds.
 F1 score for test set: 0.7910.
+
 
 Training a RandomForestClassifier using a training set size of 100. . .
 Trained model in 0.0193 seconds
@@ -12349,19 +12418,22 @@ F1 score for training set: 0.9841.
 Made predictions in 0.0010 seconds.
 F1 score for test set: 0.7119.
 
+
 Training a RandomForestClassifier using a training set size of 200. . .
-Trained model in 0.0200 seconds
+Trained model in 0.0201 seconds
 Made predictions in 0.0012 seconds.
 F1 score for training set: 1.0000.
 Made predictions in 0.0010 seconds.
 F1 score for test set: 0.7761.
 
+
 Training a RandomForestClassifier using a training set size of 300. . .
-Trained model in 0.0211 seconds
+Trained model in 0.0212 seconds
 Made predictions in 0.0013 seconds.
 F1 score for training set: 0.9976.
-Made predictions in 0.0011 seconds.
+Made predictions in 0.0010 seconds.
 F1 score for test set: 0.7344.
+
 
 </pre>
 </div>
@@ -12612,7 +12684,7 @@ F1 score for test set: 0.7344.
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[14]:</div>
+<div class="prompt input_prompt">In&nbsp;[17]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython2"><pre><span></span><span class="c1"># TODO: Import &#39;GridSearchCV&#39; and &#39;make_scorer&#39;</span>
@@ -12714,7 +12786,7 @@ Best Parameters
 
 Made predictions in 0.0014 seconds.
 Tuned model has a training F1 score of 0.8447.
-Made predictions in 0.0011 seconds.
+Made predictions in 0.0010 seconds.
 Tuned model has a testing F1 score of 0.7838.
 
 
@@ -12771,7 +12843,7 @@ Tuned model has a testing F1 score of 0.7917.
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[17]:</div>
+<div class="prompt input_prompt">In&nbsp;[18]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython2"><pre><span></span><span class="c1"># Import StratifiedShuffleSplit from sklearn</span>
@@ -12830,7 +12902,7 @@ Tuned model has a testing F1 score of 0.7917.
 
 Made predictions in 0.0011 seconds.
 Tuned model has a training F1 score of 0.8403.
-Made predictions in 0.0008 seconds.
+Made predictions in 0.0007 seconds.
 Tuned model has a testing F1 score of 0.7808.
 </pre>
 </div>
